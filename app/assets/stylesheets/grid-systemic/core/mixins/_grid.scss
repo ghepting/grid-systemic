@@ -1,0 +1,96 @@
+@mixin flex-grid($wrap: wrap) {
+  display: flex;
+  flex-wrap: $wrap;
+
+  > * {
+    // Enforce correct flex default value in IE10
+    flex: 0 1 auto;
+  }
+}
+
+@mixin flex-column-width($col-width) {
+  > * {
+    width: $col-width;
+  }
+}
+
+@mixin flex-column-gutter($col-gutter: spacing('default')) {
+  $col-padding: $col-gutter / 2;
+
+  margin-left: -$col-padding;
+  margin-right: -$col-padding;
+
+  > * {
+    padding-left: $col-padding;
+    padding-right: $col-padding;
+  }
+}
+
+@mixin flex-row-gutter($row-gutter: spacing('default')) {
+  // override grid negative bottom margin
+  margin-bottom: (-$row-gutter) !important;
+
+  // apply row spacing to each column
+  > * {
+    margin-bottom: $row-gutter !important;
+  }
+
+  // override "gap" helper classes to offset the negative margins on rows
+  // only returns truthy if list contains value
+
+  @if $spacing-classes and index($spacing-types, 'gap') {
+    @each $size, $value in $spacing-sizes {
+      &.gap-#{$size},
+      &.gap-vert-#{$size},
+      &.gap-bottom-#{$size} {
+        margin-bottom: ($value - $row-gutter) !important;
+      }
+    }
+  }
+}
+
+// flex align on horizontal axis
+@mixin flex-align($alignment, $important: false) {
+  display: specificity(flex, $important);
+
+  @if $alignment == 'center' {
+    justify-content: specificity(center, $important);
+  }
+
+  @else if $alignment == 'left' {
+    justify-content: specificity(flex-start, $important);
+  }
+
+  @else if $alignment == 'right' {
+    justify-content: specificity(flex-end, $important);
+  }
+
+  @else if $alignment == 'justify' {
+    justify-content: specificity(space-between, $important);
+  }
+}
+
+// flex align on vertical axis
+@mixin flex-valign($alignment, $important: false) {
+  display: specificity(flex, $important);
+
+  @if $alignment == 'middle' {
+    align-content: specificity(center, $important);
+    align-items: specificity(center, $important);
+  }
+
+  @else if $alignment == 'top' {
+    align-content: specificity(flex-start, $important);
+    align-items: specificity(flex-start, $important);
+  }
+
+  @else if $alignment == 'bottom' {
+    align-content: specificity(flex-end, $important);
+    align-items: specificity(flex-end, $important);
+  }
+
+  @else if $alignment == 'justify' {
+    align-content: specificity(space-between, $important);
+    align-items: specificity(flex-start, $important);
+  }
+}

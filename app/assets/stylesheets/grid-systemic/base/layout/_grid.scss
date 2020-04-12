@@ -1,0 +1,96 @@
+@if $grid-classes {
+  .grid-systemic {
+    // Grid wrapper
+    .grid,
+    [class^='grid-'],
+    [class*=' grid-'] {
+      @include flex-grid;
+      @include flex-column-width(100%);
+      @include flex-column-gutter;
+      @include flex-row-gutter;
+    }
+
+    // Reverse grid column direction
+    .grid-reverse {
+      flex-direction: row-reverse;
+    }
+
+    // Equal height columns (per row) with flexbox
+    .grid-row-equal-heights {
+      // Enable nested flex grid on each cell container
+      > * {
+        @include flex-grid;
+        @include flex-column-width(100%);
+      }
+    }
+
+    // Prevent a grid column from shrinking
+    .no-shrink {
+      flex-shrink: 0 !important;
+    }
+
+    // Breakpoint targeted classes
+    @each $breakpoint-name, $_map in $breakpoints {
+      @include at($breakpoint-name) {
+        // Breakpoint targeted class suffix
+        $suffix: breakpoint-suffix($breakpoint-name);
+
+        // Auto-sized columns
+        .grid-auto#{$suffix},
+        .grid-flex#{$suffix} {
+          @include flex-column-width(auto);
+        }
+
+        // Auto-sized columns that don't wrap
+        .grid-flex#{$suffix} {
+          @include flex-grid(nowrap);
+        }
+
+        // Base grid classes
+        @for $i from 1 through $grid-max-columns {
+          $col-width: 100% / $i;
+
+          .grid-#{$i}#{$suffix} {
+            flex-wrap: wrap;
+
+            @include flex-column-width($col-width);
+          }
+        }
+
+        // Grid spacing classes
+        @each $name, $value in $spacing-sizes {
+          $grid-spacing-class: 'grid-space-#{$name}#{$suffix}';
+          $grid-col-spacing-class: 'grid-col-space-#{$name}#{$suffix}';
+          $grid-row-spacing-class: 'grid-row-space-#{$name}#{$suffix}';
+
+          // Grid column spacing modifier classes
+          .#{$grid-spacing-class},
+          .#{$grid-col-spacing-class} {
+            @include flex-column-gutter($value);
+          }
+
+          // Grid row spacing modifier classes
+          .#{$grid-spacing-class},
+          .#{$grid-row-spacing-class} {
+            @include flex-row-gutter($value);
+          }
+        }
+
+        // Grid alignment helpers
+        @each $type in $flex-align-types-horz {
+          .grid-align-#{$type}#{$suffix},
+          .flex-align-#{$type}#{$suffix} {
+            @include flex-align($type, true);
+          }
+        }
+
+        @each $type in $flex-align-types-vert {
+          .grid-valign-#{$type}#{$suffix},
+          .flex-valign-#{$type}#{$suffix} {
+            @include flex-valign($type, true);
+          }
+        }
+      }
+    }
+  }
+}

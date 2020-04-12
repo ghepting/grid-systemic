@@ -1,0 +1,42 @@
+@if $fraction-classes {
+  @each $breakpoint-name, $_map in $breakpoints {
+    @include at($breakpoint-name) {
+      // Breakpoint targeted class suffix
+      $suffix: breakpoint-suffix($breakpoint-name);
+
+      // Keep track of selectors generated in loop
+      $fraction-selectors: ();
+
+      // Loop through denominators & numerators
+      @each $denom in $fractions-supported {
+        @for $numer from 1 through $denom {
+          // Generate classname (w/ optional suffix)
+          $fraction-string: fraction_to_string($numer, $denom);
+          $fraction-selector: '.#{$fraction-string}#{$suffix}';
+
+          // Generate reduced fraction classname
+          $fraction-reduced-string: fraction_reduced_to_string($numer, $denom);
+          $fraction-reduced-selector: '.#{$fraction-reduced-string}#{$suffix}';
+
+          // Apply width override to selector
+          #{$fraction-selector} {
+            @if index($fraction-selectors, $fraction-reduced-selector) {
+              // An equivalent fraction class already exists, so extend it
+              @extend #{$fraction-reduced-selector};
+            }
+
+            @else {
+              // A brand new fraction size, so track the new selector
+              $fraction-selectors: append(
+                $fraction-selectors,
+                $fraction-selector
+              );
+
+              width: percentage($numer / $denom) !important;
+            }
+          }
+        }
+      }
+    }
+  }
+}

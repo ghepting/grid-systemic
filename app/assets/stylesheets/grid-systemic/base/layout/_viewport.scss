@@ -1,0 +1,14 @@
+// Viewport configuration
+@mixin generate-viewport {
+  width: device-width;
+  zoom: 1;
+  max-zoom: 4;
+}
+
+@-ms-viewport {
+  @include generate-viewport;
+}
+
+@viewport {
+  @include generate-viewport;
+}

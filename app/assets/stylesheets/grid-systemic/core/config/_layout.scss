@@ -1,0 +1,88 @@
+// Body widths
+$body-width-min: 320px !default;
+$body-width-max: 1680px !default;
+
+$breakpoints: (
+  'base': (
+    'layout': 320px,
+    'width': 0px
+  ),
+  'xsmall': (
+    'layout': 360px,
+    'width': 384px
+  ),
+  'small': (
+    'layout': 432px,
+    'width': 512px
+  ),
+  'medium': (
+    'layout': 696px,
+    'width': 768px
+  ),
+  'large': (
+    'layout': 900px,
+    'width': 1024px
+  ),
+  'xlarge': (
+    'layout': 1140px,
+    'width': 1280px
+  )
+) !default;
+
+// Fractions supported in fractional width helper classes
+$fractions-supported: 1 2 3 4 5 !default;
+
+// Range of grid columns
+$grid-max-columns: 5 !default;
+
+$spacing-sizes: (
+  'none': 0px,
+  'xsmall': 8px,
+  'small': 16px,
+  'default': 24px,
+  'medium': 40px,
+  'large': 72px
+) !default;
+
+$spacing-types: (
+  'pad',
+  'gap',
+  'offset'
+) !default;
+
+$spacing-props: (
+  '',
+  'vert',
+  'horz',
+  'top',
+  'bottom',
+  'left',
+  'right'
+) !default;
+
+// Display helpers
+$display-types: (
+  'block',
+  'flex',
+  'inline',
+  'inline-block',
+  'inline-flex',
+  'none'
+) !default;
+
+// Box positions
+$box-positions-horz: (
+  'left',
+  'center',
+  'right'
+) !default;
+
+$box-positions-vert: (
+  'top',
+  'middle',
+  'bottom'
+) !default;
+
+// Alignment helpers
+$flex-align-types-horz: join($box-positions-horz, 'justify') !default;
+$flex-align-types-vert: join($box-positions-vert, 'justify') !default;

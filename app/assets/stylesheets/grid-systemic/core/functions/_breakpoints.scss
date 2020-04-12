@@ -1,0 +1,21 @@
+// breakpoint width lookup functions
+@function breakpoint-config($breakpoint-name) {
+  @return map-get($breakpoints, $breakpoint-name);
+}
+
+@function breakpoint-width($breakpoint-name) {
+  @return map-get(breakpoint-config($breakpoint-name), 'width');
+}
+
+@function breakpoint-suffix($breakpoint-name) {
+  @if breakpoint-width($breakpoint-name) <= $body-width-min {
+    @return '';
+  } @else {
+    @return '-at-#{$breakpoint-name}';
+  }
+}
+
+// container width lookup function
+@function container-width($breakpoint-name) {
+  @return map-get(breakpoint-config($breakpoint-name), 'layout');
+}

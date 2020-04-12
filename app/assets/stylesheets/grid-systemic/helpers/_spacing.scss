@@ -1,0 +1,29 @@
+@if $spacing-classes {
+  @each $breakpoint-name, $_map in $breakpoints {
+    @include at($breakpoint-name) {
+      $suffix: breakpoint-suffix($breakpoint-name);
+
+      @each $type in $spacing-types {
+        @each $prop in $spacing-props {
+          @each $size, $value in $spacing-sizes {
+            // Generate classname (w/ optional suffix)
+            $selector: '.#{$type}-#{$prop}-#{$size}#{$suffix}';
+            @if $prop == '' {
+              $selector: '.#{$type}-#{$size}#{$suffix}';
+            }
+
+            // Compute value, & property list
+            $properties: spacing-property-list($prop, $type);
+
+            // Apply spacing styles
+            #{$selector} {
+              @each $property in $properties {
+                #{$property}: spacing($size, $type) !important;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

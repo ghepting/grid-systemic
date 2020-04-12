@@ -1,0 +1,45 @@
+@if $display-classes {
+  @each $breakpoint-name, $_map in $breakpoints {
+    @include at($breakpoint-name) {
+      $suffix: breakpoint-suffix($breakpoint-name);
+
+      @each $type in $display-types {
+        // Generate base selector
+        $selector: '.display-#{$type}#{$suffix}';
+
+        // Alias .hide as .display-none
+
+        @if $type == 'none' {
+          $selector: '#{$selector}, .hide#{$suffix}';
+        }
+
+        // Apply display styles
+        #{$selector} {
+          display: unquote($type) !important;
+
+          // TODO: investigate whether this is really necessary
+          // Fix extraneous margin-bottom on inline-block elements
+
+          @if $type == 'inline-block' {
+            vertical-align: middle;
+          }
+        }
+      }
+    }
+
+    // .hide-until-* (use judiciously, as this breaks w/ mobile-first convention)
+
+    @if $breakpoint-name != 'base' {
+      @include until($breakpoint-name) {
+        .hide-until-#{$breakpoint-name} {
+          display: none !important;
+        }
+      }
+    }
+  }
+
+  // Nuclear override for all breakpoints (useful for JS toggling)
+  .hidden {
+    display: none !important;
+  }
+}

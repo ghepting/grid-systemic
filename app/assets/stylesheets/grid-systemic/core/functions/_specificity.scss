@@ -1,0 +1,9 @@
+@function specificity($value, $important: false) {
+  @if $important {
+    @return $value !important;
+  }
+
+  @else {
+    @return $value;
+  }
+}

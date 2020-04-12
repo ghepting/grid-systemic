@@ -1,0 +1,29 @@
+// spacing lookup functions
+@function spacing($size, $type: '') {
+  $value: map-get($spacing-sizes, $size);
+
+  @return if($type == 'offset', -$value, $value);
+}
+
+@function spacing-property-list($prop, $type) {
+  $property: 'margin';
+  @if $type == 'pad' {
+    $property: 'padding';
+  }
+
+  @if $prop == '' or $prop == null {
+    @return '#{$property}';
+  }
+
+  @else if $prop == 'vert' {
+    @return '#{$property}-top', '#{$property}-bottom';
+  }
+
+  @else if $prop == 'horz' {
+    @return '#{$property}-left', '#{$property}-right';
+  }
+
+  @else {
+    @return '#{$property}-#{$prop}';
+  }
+}

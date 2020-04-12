@@ -1,0 +1,39 @@
+@mixin max-width($widths...) {
+  @each $width in $widths {
+    @if length($width) > 1 {
+      @media (min-width: #{nth($width, 1)}) {
+        max-width: nth($width, 2);
+      }
+    }
+
+    @else {
+      max-width: $width;
+    }
+  }
+}
+
+@mixin center-horizontally($widths...) {
+  margin-left: auto;
+  margin-right: auto;
+
+  @include max-width($widths...);
+}
+
+@mixin clearfix {
+  &::before,
+  &::after {
+    content: ' ';
+    display: table;
+    width: 100%;
+    clear: both;
+  }
+}
+
+@mixin min-max($axis, $min, $max: false) {
+  @if not $max {
+    $max: $min;
+  }
+
+  min-#{$axis}: $min;
+  max-#{$axis}: $max;
+}
