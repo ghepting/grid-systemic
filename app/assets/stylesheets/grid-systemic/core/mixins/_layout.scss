@@ -1,3 +1,13 @@
+@mixin container($breakpoints: $breakpoints) {
+  @include center-horizontally;
+
+  @each $breakpoint-name, $_map in $breakpoints {
+    @include at($breakpoint-name) {
+      width: container-width($breakpoint-name);
+    }
+  }
+}
+
 @mixin max-width($widths...) {
   @each $width in $widths {
     @if length($width) > 1 {

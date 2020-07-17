@@ -1,13 +1,7 @@
 @if $container-width-classes {
   // container container
   .container {
-    @include center-horizontally;
-
-    @each $breakpoint-name, $_map in $breakpoints {
-      @include at($breakpoint-name) {
-        width: container-width($breakpoint-name);
-      }
-    }
+    @include container;
   }
 
   // Static container container classes
